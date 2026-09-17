@@ -16,6 +16,12 @@ export function useAuth() {
         credentials: 'include',
         body: JSON.stringify(userData),
       });
+
+      if (!res.ok) {
+        const resultError = await res.json();
+        alert(resultError.message);
+      }
+
       const result = await res.json();
       return result;
     },
@@ -29,7 +35,11 @@ export function useAuth() {
     queryKey: ['auth'],
     queryFn: () =>
       fetch('http://localhost:3000/users/me', { credentials: 'include' }).then(
-        (res) => res.json()
+        (res) =>
+          res.json().catch((res) => {
+            res.json();
+            alert(res.message);
+          })
       ),
   });
 
@@ -40,6 +50,12 @@ export function useAuth() {
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
       });
+
+      if (!res.ok) {
+        const resultError = await res.json();
+        alert(resultError.message);
+      }
+
       const result = await res.json();
       return result;
     },

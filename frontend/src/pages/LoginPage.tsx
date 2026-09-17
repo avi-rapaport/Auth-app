@@ -16,6 +16,12 @@ const SignupPage = () => {
         credentials: 'include',
         body: JSON.stringify(userData),
       });
+
+      if (!res.ok) {
+        const resultError = await res.json();
+        alert(resultError.message);
+      }
+
       const result = await res.json();
       return result;
     },
@@ -37,7 +43,7 @@ const SignupPage = () => {
   };
 
   if (isPending) return <h1>Saving user Info...</h1>;
-  if (isError) return <h1>Error: {error.message}</h1>;
+  if (isError) <h1>Error: {error.message}</h1>;
 
   return (
     <div className="page">
