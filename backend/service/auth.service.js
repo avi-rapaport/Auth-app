@@ -22,6 +22,10 @@ async function login(userName, password) {
   const users = await readJson();
   const user = users.find((u) => u.userName === userName);
 
+  if (!user) {
+    throw Object.assign(new Error('User not found'), { status: 404 });
+  }
+
   const isAuthenticated = bcrypt.compare(password, user.password);
   if (!isAuthenticated) {
     throw Object.assign(new Error('Incorrect password'), { status: 401 });
