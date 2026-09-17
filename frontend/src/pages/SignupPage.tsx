@@ -1,34 +1,13 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useMutation } from '@tanstack/react-query';
-
-interface UserData {
-  userName: string;
-  email: string;
-  password: string;
-}
-
-interface Signup {
-  message: string;
-  newId: number;
-}
+import { Link } from 'react-router-dom';
+import { useAuth } from '../hooks/useAuth';
 
 const SignupPage = () => {
-  const [username, setUsername] = useState<string | null>(null);
-  const [email, setEmail] = useState<string | null>(null);
-  const [password, setPassword] = useState<string | null>(null);
+  const [username, setUsername] = useState<string | null>('');
+  const [email, setEmail] = useState<string | null>('');
+  const [password, setPassword] = useState<string | null>('');
 
-  const navigate = useNavigate();
-
-  const { mutate, data, isPending, isError, error } = useMutation({
-    mutationFn: (userData: UserData) =>
-      fetch('http://localhost:3000/signup', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify(userData),
-      }).then((res) => res.json),
-  });
+  const { useSignup } = useAuth();
 
   const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -39,21 +18,18 @@ const SignupPage = () => {
       password: password!.trim(),
     };
 
-    mutate(userData);
+    useSignup.mutate(userData);
   };
 
-  if (isPending) return <h1>Saving user Info...</h1>;
-  if (isError) return <h1>Error: {error.message}</h1>;
-  if (data) {
-    alert(data);
-    setTimeout(() => navigate(`/users/${data.newId}`), 2000);
-  }
+  if (useSignup.isPending) return <h1>Saving user Info...</h1>;
+  if (useSignup.isError) return <h1>Error: {useSignup.error.message}</h1>;
 
   return (
-    <div>
+    <div className="page">
       <h1>Welcome to my app you can signup in the form below</h1>
-      <form onSubmit={handleSubmit}>
+      <form className="form" onSubmit={handleSubmit}>
         <input
+          className="input"
           type="text"
           placeholder="Username"
           onChange={(e) => setUsername(e.target.value)}
@@ -61,19 +37,20 @@ const SignupPage = () => {
           required
         />
         <input
+          className="input"
           type="text"
           placeholder="Email"
           onChange={(e) => setEmail(e.target.value)}
-          autoFocus
           required
         />
         <input
+          className="input"
           type="text"
           placeholder="Password"
           onChange={(e) => setPassword(e.target.value)}
-          autoFocus
           required
         />
+        <button type="submit">Signup</button>
       </form>
 
       <h4>Already have an account?</h4>

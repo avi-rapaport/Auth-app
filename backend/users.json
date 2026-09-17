@@ -34,5 +34,17 @@
     "userName": "jo",
     "email": "kenblock.ar@gmail.com",
     "password": "$2b$12$ceL/QbYNTloaifKc9Gz90OdQWEjtsX5zRw6WbgCAR2.fjSmGZeqU."
+  },
+  {
+    "id": 7,
+    "userName": "rafi",
+    "email": "kenblock.ar@gmail.com",
+    "password": "$2b$12$q4lVnlD5R9/Q7n2Kk8kmy.78ZyxmK084JCw1f5j.O9jovWrXiL9rS"
+  },
+  {
+    "id": 8,
+    "userName": "as",
+    "email": "kenblock.ar@gmail.com",
+    "password": "$2b$12$SfKZNBKWadwE.D0VB.jcguNiHC0Ko1ovBNsMhVlpXiYhEz42UYnWS"
   }
 ]
