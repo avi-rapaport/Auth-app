@@ -2,12 +2,20 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { readJson, saveJson } from '../io.js';
 
-async function signUp(user) {
+async function signUp(userData) {
   const users = await readJson();
-  const hashedPassword = await bcrypt.hash(user.password, 12);
-  user.password = hashedPassword;
-  users.push(user);
+  const userNameExists = users.find((u) => u.userName === userData.userName);
+  if (userNameExists) {
+    throw Object.assign(new Error('Username already taken!'), { status: 409 });
+  }
+
+  const hashedPassword = await bcrypt.hash(userData.password, 12);
+  const id = users.length > 0 ? Math.max(...users.map((u) => u.id)) + 1 : 1;
+  userData.password = hashedPassword;
+  const userToSave = { id, ...userData };
+  users.push(userToSave);
   await saveJson(users);
+  return id;
 }
 
 async function login(userName, password) {
@@ -19,7 +27,7 @@ async function login(userName, password) {
     throw Object.assign(new Error('Incorrect password'), { status: 401 });
   }
 
-  const token = jwt.sign({ userName }, process.env.JWT_SECRET, {
+  const token = jwt.sign({ id: user.id, userName }, process.env.JWT_SECRET, {
     expiresIn: '55m',
   });
 
