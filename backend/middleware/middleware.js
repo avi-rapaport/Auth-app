@@ -2,8 +2,6 @@ import jwt from 'jsonwebtoken';
 
 export async function authMiddleware(req, res, next) {
   const token = req.cookies?.token;
-  console.log(req.cookies);
-  console.log(token);
 
   if (!token) {
     throw Object.assign(new Error('Invalid or missing Token'), { status: 401 });

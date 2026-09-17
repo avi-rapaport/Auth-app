@@ -6,8 +6,6 @@ export const router = express.Router();
 
 router.get('/me', authMiddleware, async (req, res) => {
   const { userName } = req.user;
-  console.log(userName);
   const user = await userService.getUserByName(userName);
-  console.log(user);
   res.json(user);
 });
