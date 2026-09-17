@@ -2,6 +2,8 @@ import jwt from 'jsonwebtoken';
 
 export async function authMiddleware(req, res, next) {
   const token = req.cookies?.token;
+  console.log(req.cookies);
+  console.log(token);
 
   if (!token) {
     throw Object.assign(new Error('Invalid or missing Token'), { status: 401 });
@@ -13,4 +15,8 @@ export async function authMiddleware(req, res, next) {
   next();
 }
 
-export function errorHandler() {}
+export function errorHandler(err, req, res, next) {
+  const status = err.status || 500;
+  const message = err.status ? err.message : 'Internal server error';
+  return res.status(status).json({ message });
+}

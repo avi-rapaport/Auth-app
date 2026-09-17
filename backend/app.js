@@ -6,7 +6,7 @@ import { router as authRouter } from './routes/auth.routes.js';
 import { router as userRouter } from './routes/user.routes.js';
 import { errorHandler } from './middleware/middleware.js';
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 3000;
 
 const app = express();
 

@@ -31,7 +31,7 @@ async function login(userName, password) {
     throw Object.assign(new Error('Incorrect password'), { status: 401 });
   }
 
-  const token = jwt.sign({ id: user.id, userName }, process.env.JWT_SECRET, {
+  const token = jwt.sign({ userName }, process.env.JWT_SECRET, {
     expiresIn: '55m',
   });
 

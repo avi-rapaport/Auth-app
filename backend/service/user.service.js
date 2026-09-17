@@ -1,8 +1,8 @@
 import { readJson } from '../io.js';
 
-async function getUserById(id) {
+async function getUserByName(userName) {
   const users = await readJson();
-  const user = users.find((u) => u.id === id);
+  const user = users.find((u) => u.userName === userName);
 
   if (!user) {
     throw Object.assign(new Error('User not found'), { status: 404 });
@@ -14,5 +14,5 @@ async function getUserById(id) {
 }
 
 export const userService = {
-  getUserById,
+  getUserByName,
 };
