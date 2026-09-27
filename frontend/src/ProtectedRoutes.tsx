@@ -1,15 +1,21 @@
-import { Outlet, useNavigate } from 'react-router-dom';
-import { useFetch } from './hooks/useFetch';
+import { Navigate, Outlet } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useMe, useLogout } from './hooks/useAuth';
 
 const ProtectedRoutes = () => {
-  const navigate = useNavigate();
+  const { isPending, isError } = useMe();
+  const { mutate: logout } = useLogout();
 
-  const { loading, error } = useFetch('http://localhost:3000/users/me');
+  useEffect(() => {
+    if (isError) {
+      logout();
+    }
+  }, [isError, logout]);
 
-  if (loading) return <h1>Verifying...</h1>;
+  if (isPending) return <h1>Verifying...</h1>;
 
-  if (error) {
-    navigate('/login');
+  if (isError) {
+    return <Navigate to="/login" replace />;
   }
 
   return <Outlet />;

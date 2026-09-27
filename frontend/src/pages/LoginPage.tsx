@@ -1,35 +1,13 @@
-import { useMutation } from '@tanstack/react-query';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useLogin } from '../hooks/useAuth';
 
-const SignupPage = () => {
+const LoginPage = () => {
   const [username, setUsername] = useState<string | null>(null);
   const [password, setPassword] = useState<string | null>(null);
-
   const navigate = useNavigate();
 
-  const { mutate, isPending, isError, error } = useMutation({
-    mutationFn: async (userData: { userName: string; password: string }) => {
-      const res = await fetch('http://localhost:3000/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify(userData),
-      });
-
-      if (!res.ok) {
-        const resultError = await res.json();
-        alert(resultError.message);
-      }
-
-      const result = await res.json();
-      return result;
-    },
-
-    onSuccess: () => {
-      navigate(`/users/${username}`);
-    },
-  });
+  const { mutate: login, isPending } = useLogin();
 
   const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -39,11 +17,13 @@ const SignupPage = () => {
       password: password!.trim(),
     };
 
-    mutate(userData);
+    login(userData, {
+      onSuccess: () => navigate(`/users/${username}`),
+      onError: (error) => alert(error.message),
+    });
   };
 
   if (isPending) return <h1>Saving user Info...</h1>;
-  if (isError) <h1>Error: {error.message}</h1>;
 
   return (
     <div className="page">
@@ -73,4 +53,4 @@ const SignupPage = () => {
   );
 };
 
-export default SignupPage;
+export default LoginPage;

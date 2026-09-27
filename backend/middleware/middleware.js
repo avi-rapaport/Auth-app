@@ -14,7 +14,14 @@ export async function authMiddleware(req, res, next) {
 }
 
 export function errorHandler(err, req, res, next) {
-  const status = err.status || 500;
-  const message = err.status ? err.message : 'Internal server error';
+  let status = err.status || 500;
+  let message = err.status ? err.message : 'Internal server error';
+
+  if (err.name === 'TokenExpiredError') {
+    status = 401;
+    message = 'Token expired, please login again';
+  }
+
+  console.log(err);
   return res.status(status).json({ message });
 }

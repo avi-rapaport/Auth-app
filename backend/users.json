@@ -1,50 +1,14 @@
 [
   {
     "id": 1,
-    "userName": "ffrrr",
+    "userName": "avi",
     "email": "kenblock.ar@gmail.com",
-    "password": "$2b$12$jLy8Ipan0nInnjIY22FUze3yYLWWVHJ1sIw46wOFxymOF4w0Y5tp."
+    "password": "$2b$12$RcPEE.aVOvQWWmsnw35.AummnfwNgCrtyaW9uieLOaNw1YGm5/WQe"
   },
   {
     "id": 2,
-    "userName": "hhhh",
-    "email": "kenblock.ar@gmail.com",
-    "password": "$2b$12$2D/0aomONH8obumxU.fpUODv57RM9K8Eai/bZZOW8OLHiTdFXskiK"
-  },
-  {
-    "id": 3,
-    "userName": "avi",
-    "email": "kenblock.ar@gmail.com",
-    "password": "$2b$12$cqdDqjoX2tSSnGnhwYxBtew9.amB6uPjjmLFUEcob/VUubgqIomMe"
-  },
-  {
-    "id": 4,
-    "userName": "avram",
-    "email": "kenblock.ar@gmail.com",
-    "password": "$2b$12$TpY6w/zd1Jueu0sKY2tXfu8bGIatuVXVNomGZsopimaBFGmVqRMOW"
-  },
-  {
-    "id": 5,
     "userName": "eli",
     "email": "kenblock.ar@gmail.com",
-    "password": "$2b$12$U5SgA3HfiRqHewkn7lKaTe4OVF33.sInFY5m1cP22.stTZ33/r1OK"
-  },
-  {
-    "id": 6,
-    "userName": "jo",
-    "email": "kenblock.ar@gmail.com",
-    "password": "$2b$12$ceL/QbYNTloaifKc9Gz90OdQWEjtsX5zRw6WbgCAR2.fjSmGZeqU."
-  },
-  {
-    "id": 7,
-    "userName": "rafi",
-    "email": "kenblock.ar@gmail.com",
-    "password": "$2b$12$q4lVnlD5R9/Q7n2Kk8kmy.78ZyxmK084JCw1f5j.O9jovWrXiL9rS"
-  },
-  {
-    "id": 8,
-    "userName": "as",
-    "email": "kenblock.ar@gmail.com",
-    "password": "$2b$12$SfKZNBKWadwE.D0VB.jcguNiHC0Ko1ovBNsMhVlpXiYhEz42UYnWS"
+    "password": "$2b$12$rpGA7Wc0r1yaaM4QDn63Eesx6tixQ4U1T2oVum4BV27oSPBTm5MZC"
   }
 ]

@@ -1,27 +1,30 @@
 import UserDetails from '../components/UserDetails';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../hooks/useAuth';
+import { useLogout, useMe } from '../hooks/useAuth';
 
 const UserDetailsPage = () => {
   const navigate = useNavigate();
-  const { useMe, useLogout } = useAuth();
+  const { isPending: mePending, data: me, error: meError } = useMe();
+  const {
+    mutate: logout,
+    isPending: logoutPending,
+    error: logoutError,
+  } = useLogout();
 
   const handleClick = () => {
-    useLogout.mutate();
-    navigate('/login');
+    logout(undefined, {
+      onSuccess: () => navigate('/login'),
+      onError: (error) => alert(error.message),
+    });
   };
 
-  if (useMe.isPending || useLogout.isPending) return <h1>Loading...</h1>;
-  if (useMe.isError) return <h1>Error: {useMe.error.message}</h1>;
-  if (useLogout.isError) return <h1>Error: {useLogout.error.message}</h1>;
+  if (mePending || logoutPending) return <h1>Loading...</h1>;
+  if (meError) return <h1>Error: {meError.message}</h1>;
+  if (logoutError) return <h1>Error: {logoutError.message}</h1>;
 
   return (
     <div className="page">
-      <UserDetails
-        id={useMe.data.id}
-        username={useMe.data.userName}
-        email={useMe.data.email!}
-      />
+      <UserDetails id={me.id} username={me.userName} email={me.email!} />
       <button onClick={handleClick}>Logout</button>
     </div>
   );

@@ -1,10 +1,7 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { useNavigate } from 'react-router-dom';
 
-export function useAuth() {
-  const navigate = useNavigate();
-
-  const useSignup = useMutation({
+export function useSignup() {
+  return useMutation({
     mutationFn: async (userData: {
       userName: string;
       email: string;
@@ -17,33 +14,47 @@ export function useAuth() {
         body: JSON.stringify(userData),
       });
 
-      if (!res.ok) {
-        const resultError = await res.json();
-        alert(resultError.message);
-      }
-
       const result = await res.json();
+      if (!res.ok) throw new Error(result.message);
       return result;
     },
+  });
+}
 
-    onSuccess: () => {
-      navigate('/login');
+export function useLogin() {
+  return useMutation({
+    mutationFn: async (userData: { userName: string; password: string }) => {
+      const res = await fetch('http://localhost:3000/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify(userData),
+      });
+
+      const result = await res.json();
+      if (res.ok) throw new Error(result.message);
+      return result;
     },
   });
+}
 
-  const useMe = useQuery({
-    queryKey: ['auth'],
-    queryFn: () =>
-      fetch('http://localhost:3000/users/me', { credentials: 'include' }).then(
-        (res) =>
-          res.json().catch((res) => {
-            res.json();
-            alert(res.message);
-          })
-      ),
+export function useMe() {
+  return useQuery({
+    queryKey: ['auth-me'],
+    queryFn: async () => {
+      const res = await fetch('http://localhost:3000/users/me', {
+        credentials: 'include',
+      });
+      const result = await res.json();
+      if (!res.ok) throw new Error(result.message);
+      return result;
+    },
+    retry: false,
   });
+}
 
-  const useLogout = useMutation({
+export function useLogout() {
+  return useMutation({
     mutationFn: async () => {
       const res = await fetch('http://localhost:3000/logout', {
         method: 'POST',
@@ -51,19 +62,9 @@ export function useAuth() {
         credentials: 'include',
       });
 
-      if (!res.ok) {
-        const resultError = await res.json();
-        alert(resultError.message);
-      }
-
       const result = await res.json();
+      if (!res.ok) throw new Error(result.message);
       return result;
     },
   });
-
-  return {
-    useSignup,
-    useMe,
-    useLogout,
-  };
 }

@@ -1,13 +1,14 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { useAuth } from '../hooks/useAuth';
+import { Link, useNavigate } from 'react-router-dom';
+import { useSignup } from '../hooks/useAuth';
 
 const SignupPage = () => {
   const [username, setUsername] = useState<string | null>('');
   const [email, setEmail] = useState<string | null>('');
   const [password, setPassword] = useState<string | null>('');
+  const navigate = useNavigate();
 
-  const { useSignup } = useAuth();
+  const { mutate: signup, isPending } = useSignup();
 
   const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -18,11 +19,15 @@ const SignupPage = () => {
       password: password!.trim(),
     };
 
-    useSignup.mutate(userData);
+    signup(userData, {
+      onSuccess: () => navigate('/login'),
+      onError: (error) => {
+        alert(error.message);
+      },
+    });
   };
 
-  if (useSignup.isPending) return <h1>Saving user Info...</h1>;
-  if (useSignup.isError) return <h1>Error: {useSignup.error.message}</h1>;
+  if (isPending) return <h1>Saving user Info...</h1>;
 
   return (
     <div className="page">
