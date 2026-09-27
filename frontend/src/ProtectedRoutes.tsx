@@ -15,7 +15,7 @@ const ProtectedRoutes = () => {
   if (isPending) return <h1>Verifying...</h1>;
 
   if (isError) {
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/login" />;
   }
 
   return <Outlet />;

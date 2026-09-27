@@ -5,11 +5,7 @@ import { useLogout, useMe } from '../hooks/useAuth';
 const UserDetailsPage = () => {
   const navigate = useNavigate();
   const { isPending: mePending, data: me, error: meError } = useMe();
-  const {
-    mutate: logout,
-    isPending: logoutPending,
-    error: logoutError,
-  } = useLogout();
+  const { mutate: logout, isPending: logoutPending } = useLogout();
 
   const handleClick = () => {
     logout(undefined, {
@@ -20,7 +16,6 @@ const UserDetailsPage = () => {
 
   if (mePending || logoutPending) return <h1>Loading...</h1>;
   if (meError) return <h1>Error: {meError.message}</h1>;
-  if (logoutError) return <h1>Error: {logoutError.message}</h1>;
 
   return (
     <div className="page">

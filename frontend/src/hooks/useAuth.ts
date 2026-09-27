@@ -32,7 +32,7 @@ export function useLogin() {
       });
 
       const result = await res.json();
-      if (res.ok) throw new Error(result.message);
+      if (!res.ok) throw new Error(result.message);
       return result;
     },
   });

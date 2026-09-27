@@ -3,8 +3,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useLogin } from '../hooks/useAuth';
 
 const LoginPage = () => {
-  const [username, setUsername] = useState<string | null>(null);
-  const [password, setPassword] = useState<string | null>(null);
+  const [username, setUsername] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
   const navigate = useNavigate();
 
   const { mutate: login, isPending } = useLogin();
@@ -13,8 +13,8 @@ const LoginPage = () => {
     e.preventDefault();
 
     const userData = {
-      userName: username!.trim(),
-      password: password!.trim(),
+      userName: username.trim(),
+      password: password.trim(),
     };
 
     login(userData, {
@@ -23,7 +23,7 @@ const LoginPage = () => {
     });
   };
 
-  if (isPending) return <h1>Saving user Info...</h1>;
+  if (isPending) return <h1>Checking user Info...</h1>;
 
   return (
     <div className="page">

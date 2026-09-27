@@ -3,9 +3,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useSignup } from '../hooks/useAuth';
 
 const SignupPage = () => {
-  const [username, setUsername] = useState<string | null>('');
-  const [email, setEmail] = useState<string | null>('');
-  const [password, setPassword] = useState<string | null>('');
+  const [username, setUsername] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
   const navigate = useNavigate();
 
   const { mutate: signup, isPending } = useSignup();
@@ -14,9 +14,9 @@ const SignupPage = () => {
     e.preventDefault();
 
     const userData = {
-      userName: username!.trim(),
-      email: email!.trim(),
-      password: password!.trim(),
+      userName: username.trim(),
+      email: email.trim(),
+      password: password.trim(),
     };
 
     signup(userData, {
